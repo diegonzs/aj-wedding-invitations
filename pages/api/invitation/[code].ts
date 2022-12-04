@@ -40,14 +40,19 @@ export default async function handler(
       ? reqBody.pasesAUtilizar
       : 0
   
-    table.update([{
-      id: reqBody.id,
-      fields: {
-        'Asistencia': reqBody.asistencia,
-        'Pases a utilizar': pasesAUtilizar,
-      }
-    }])
+    try {
+      await table.update([{
+        id: reqBody.id,
+        fields: {
+          'Asistencia': reqBody.asistencia,
+          'Pases a utilizar': pasesAUtilizar,
+        }
+      }])
+      res.status(200).send('SUCESS')
+    } catch (error) {
+      console.log(error)
+      res.status(500).send('ERROR')
+    }
 
-    res.status(200).send('SUCESS')
   }
 }

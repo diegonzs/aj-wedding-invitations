@@ -1,4 +1,5 @@
 import { useMemo } from "react"
+import toast from 'react-hot-toast'
 import { Controller, useForm } from "react-hook-form"
 import { useRowStore } from "../../../store/row"
 import { Button } from "../../button"
@@ -32,16 +33,19 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
   onFailed
 }) => {
   const rowId = useRowStore(state => state.rowId)
+  const loading = useRowStore(state => state.loading)
+  const setLoading = useRowStore(state => state.setLoading)
   const invitationNumber = useRowStore((state) => state.invitations)
-  const { register, watch, control, handleSubmit } = useForm<ConfirmationFormData>({
+  const { register, watch, control, handleSubmit, reset } = useForm<ConfirmationFormData>({
     defaultValues: {
       confirmation: Asistencia.Confirmado,
       passNumbers: '1',
     }
   })
 
-  const onSubmit = handleSubmit((data) => {
-    fetch('/api/invitation/code', {
+  const onSubmit = handleSubmit(async (data) => {
+    setLoading(true)
+    const response = await fetch('/api/invitation/code', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -52,6 +56,11 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
         pasesAUtilizar: Number(data.passNumbers),
       }),
     })
+    setLoading(false)
+    if (response.status === 500) {
+      toast.error('Error! Intenta nuevamente.')
+      return reset()
+    }
     if (data.confirmation === Asistencia.Confirmado) {
       return onSuccess()
     }
@@ -106,7 +115,11 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
           />
         </div>
       )}
-      <Button type="submit" title="ENVIAR"/>
+      <Button
+        type="submit"
+        title={loading ? 'ENVIANDO...' : 'ENVIAR'}
+        disabled={loading}
+      />
       <p className="text-lg mt-24">
         Necesitas más pases? Escríbenos por{' '}
         <a className="underline font-bold" href="">Whatsapp</a>
