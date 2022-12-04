@@ -6,6 +6,8 @@ import { RawRow, Row, rowFromRaw } from "../../../types/row"
 import { Button } from "../../button"
 import useSwr from 'swr'
 import { useRowStore } from "../../../store/row"
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 interface InvitationCodeProps {
   onSuccess: () => void
@@ -19,12 +21,22 @@ type InvitationCodeFormData = {
 export const InvitationCode: React.FC<InvitationCodeProps> = ({
   onSuccess,
   onFailed,
-}) => {  
-  const { handleSubmit, register, formState: { errors }, reset } = useForm<InvitationCodeFormData>()
+}) => {
+  const router = useRouter()
+  const { query } = router
+  const { handleSubmit, register, formState: { errors }, reset, setValue } = useForm<InvitationCodeFormData>({
+    defaultValues: {
+      code: query.code as string | undefined
+    }
+  })
   const loading = useRowStore(state => state.loading)
   const setLoading = useRowStore(state => state.setLoading)
   const setInvitations = useRowStore(state => state.setInvitations)
   const setRowId = useRowStore(state => state.setRowId)
+
+  useEffect(() => {
+    setValue('code', query.code as string)
+  }, [query, setValue])
 
   const onSubmit = handleSubmit(async (data) => {
     setLoading(true)
@@ -58,7 +70,8 @@ export const InvitationCode: React.FC<InvitationCodeProps> = ({
           className={clsx(
             'p-5 w-full bg-transparent',
             'text-base tracking-widest',
-            'border border-solid border-opacity-30 border-black'
+            'border border-solid border-opacity-30 border-black',
+            'focus:ring-black focus:border-black'
           )}
           {...register('code', {
             required: 'Please enter code.',
