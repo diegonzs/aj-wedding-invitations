@@ -34,12 +34,13 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
 }) => {
   const rowId = useRowStore(state => state.rowId)
   const loading = useRowStore(state => state.loading)
+  const familyName = useRowStore(state => state.familyName)
   const setLoading = useRowStore(state => state.setLoading)
   const invitationNumber = useRowStore((state) => state.invitations)
   const { register, watch, control, handleSubmit, reset } = useForm<ConfirmationFormData>({
     defaultValues: {
       confirmation: Asistencia.Confirmado,
-      passNumbers: '1',
+      passNumbers: String(invitationNumber),
     }
   })
 
@@ -76,8 +77,8 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center w-full">
-      <h1 className="font-serif text-[56px] mb-4 text-center">Confirma tu asistencia</h1>
-      <p className="text-sm text-center mb-20 font-bold">POR FAVOR, CONFIRMAR ANTES DEL 15 DICiEMBRE</p>
+      <h1 className="font-serif text-[56px] mb-4 text-center">{familyName}</h1>
+      <p className="text-sm text-center mb-20 font-bold">CONFIRMAR ASISTENCIA</p>
       <fieldset className="w-[340px] flex flex-col items-start mb-12">
         <p className="text-sm mb-4 uppercase">Vas asistir a nuestra boda?</p>
         <div className="space-y-4">
@@ -109,7 +110,7 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
                 options={options}
                 selected={value}
                 setSelected={(value) => onChange(value)}
-                label="Número de pases"
+                label="CANTIDAD DE PASES"
               />
             )}
           />
@@ -117,10 +118,11 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
       )}
       <Button
         type="submit"
-        title={loading ? 'ENVIANDO...' : 'ENVIAR'}
+        title={loading ? 'ENVIANDO' : 'ENVIAR'}
         disabled={loading}
+        isLoading={loading}
       />
-      <p className="text-lg mt-24 max-w-[340px] sm:max-w-none">
+      <p className="text-lg mt-24 max-w-[340px] sm:max-w-none tracking-normal">
         Necesitas más pases? Escríbenos por{' '}
         <a className="underline font-bold" href="">Whatsapp</a>
       </p>

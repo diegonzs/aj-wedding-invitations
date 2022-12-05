@@ -30,6 +30,7 @@ export const InvitationCode: React.FC<InvitationCodeProps> = ({
   const loading = useRowStore(state => state.loading)
   const setLoading = useRowStore(state => state.setLoading)
   const setInvitations = useRowStore(state => state.setInvitations)
+  const setFamilyName = useRowStore(state => state.setFamilyName)
   const setRowId = useRowStore(state => state.setRowId)
 
   useEffect(() => {
@@ -52,6 +53,7 @@ export const InvitationCode: React.FC<InvitationCodeProps> = ({
       if (row) {
         setRowId(row.id)
         setInvitations(row.pasesDisponibles)
+        setFamilyName(row.nombre ?? '')
         onSuccess()
       }
     }
@@ -81,8 +83,9 @@ export const InvitationCode: React.FC<InvitationCodeProps> = ({
       </div>
       <Button
         type="submit"
-        title={loading ? 'LOADING...' : 'INGRESAR'}
+        title={loading ? 'INGRESANDO' : 'INGRESAR'}
         disabled={loading}
+        isLoading={loading}
       />
     </form>
   )
