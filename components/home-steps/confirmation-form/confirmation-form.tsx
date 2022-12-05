@@ -120,7 +120,7 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
         title={loading ? 'ENVIANDO...' : 'ENVIAR'}
         disabled={loading}
       />
-      <p className="text-lg mt-24">
+      <p className="text-lg mt-24 max-w-[340px] sm:max-w-none">
         Necesitas más pases? Escríbenos por{' '}
         <a className="underline font-bold" href="">Whatsapp</a>
       </p>
