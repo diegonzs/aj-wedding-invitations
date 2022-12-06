@@ -124,7 +124,14 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
       />
       <p className="text-lg mt-24 max-w-[340px] sm:max-w-none tracking-normal">
         Necesitas más pases? Escríbenos por{' '}
-        <a className="underline font-bold" href="">Whatsapp</a>
+        <a
+          className="underline font-bold"
+          href="https://wa.link/xiuzdc"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Whatsapp
+        </a>
       </p>
     </form>
   )
