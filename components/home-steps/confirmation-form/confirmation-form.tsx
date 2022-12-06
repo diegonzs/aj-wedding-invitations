@@ -77,7 +77,7 @@ export const ConfirmationForm: React.FC<ConfirmationFormProps> = ({
 
   return (
     <form onSubmit={onSubmit} className="flex flex-col items-center w-full">
-      <h1 className="font-serif text-[56px] mb-4 text-center">{familyName}</h1>
+      <h1 className="font-serif text-[56px] mb-4 text-center leading-tight">{familyName}</h1>
       <p className="text-sm text-center mb-20 font-bold">CONFIRMAR ASISTENCIA</p>
       <fieldset className="w-[340px] flex flex-col items-start mb-12">
         <p className="text-sm mb-4 uppercase">Vas asistir a nuestra boda?</p>
